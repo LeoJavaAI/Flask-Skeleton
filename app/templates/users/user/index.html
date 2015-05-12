@@ -1,0 +1,32 @@
+
+{% extends "/admin/layout.html" %}  
+{% block body %}
+
+<div class="center row">
+      <div class="small-12 columns"><p><h4 style="display:inline">Users </h4><a href="{{ url_for('user_add')}}">Add new</a></p></div>
+    </div>
+     
+      <!-- Main Page Content-->
+ <div class="center row">
+             <div class="small-12 columns">
+            <table> <thead><tr><th>Name</th><th>Email</th></tr></thead>
+             <tbody>
+             {% for user in users %}
+              <tr><td>{{user.name}}</td><td>{{user.email}}</td>
+                  <td><a href="{{ url_for('user_update', id=user.id) }}">Edit</a>        <a href="{{ url_for('user_delete', id=user.id) }}">Delete</a></td>
+                </tr> 
+                {% endfor %} 
+              </tbody>
+            </table>
+          </div>
+        </div>
+     
+ {% endblock %}           
+     
+            
+                
+				
+     
+     
+      
+     

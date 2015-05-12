@@ -1,0 +1,23 @@
+
+{% macro user_form(form_name = '', user_name='', user_email='', required='required') %}
+  
+        <div class="center row">
+            <div class="large-8 columns">
+            <h4> {{ form_name }} Users</h4>
+               <fieldset>  
+                <form action="" method="POST"> 
+  
+				  <label>Name <small>required</small><input type="text" name="name" value="{{ user_name }}"  required/>	 </label>   
+				 <label> Email <small>required</small> <input type="email" name="email" value="{{ user_email }}" required/> </label> 
+				 <label>Password <small>{{ required }} </small> <input type="password"   name="password"  pattern="[\w\s-]{6,16}" title="Passwords can contain alphanumeric/_/- chars or spaces with a min of 6 and a max of 16 chars" {{ required }}/> 
+                  Password must be between 6 and 16 characters </label> 
+				   <button class="button "  type="submit">{{ form_name }}</button>
+                  </form>
+                </fieldset>  
+				      
+            			   
+				</div>
+			  </div>
+			  
+  
+{% endmacro %}

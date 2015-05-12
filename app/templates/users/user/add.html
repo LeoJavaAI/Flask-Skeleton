@@ -1,0 +1,11 @@
+
+{% extends "/admin/layout.html" %}
+  {% block body %}
+
+    {% from 'user/_form.html' import user_form %}
+
+    {{ user_form(form_name = 'Add', user_name = '', user_email = '') }}
+			
+  {% endblock %}
+   
+
