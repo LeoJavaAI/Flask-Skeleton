@@ -1,4 +1,5 @@
 #!/usr/bin/env python
-from app import app
-app.debug = True
+from app import create_app
+
+app = create_app('config')
 app.run( host = '127.0.0.1' )
