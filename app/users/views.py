@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request,flash, redirect, url_for, abort, jsonify
-from app import app, db
 from app.users.models import Users, UsersSchema
 import json
 

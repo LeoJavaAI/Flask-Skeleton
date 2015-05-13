@@ -1,14 +1,14 @@
-from app import db
+from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.sql.expression import text
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import Schema, fields, ValidationError
 
+db = SQLAlchemy()
 
 class Users(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   email = db.Column(db.String(250), unique=True, nullable=False)
-  name = db.Column(db.String(250), nullable=False)
- 
+  name = db.Column(db.String(250), nullable=False) 
 
   def __init__(self,email, name,):
     self.email=email
@@ -33,21 +33,7 @@ class UsersSchema(Schema):
     email = fields.Email()
     
     class Meta:
-       fields = ('id', 'email', 'name')
-    
-'''
-class UsersSchema(Schema):
-    formatted_name = fields.Method("format_name")
-
-    def format_name(self, user):
-        return "{}, {}".format(user.email, user.name)
-
-    
-
-    def must_not_be_blank(data):
-      if not data:
-        raise ValidationError('Data not provided.')'''
-   
+       fields = ('id', 'email', 'name')   
      
 def  session_commit ():
       try:
