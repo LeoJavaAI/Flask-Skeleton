@@ -33,7 +33,7 @@ class UsersSchema(Schema):
     email = fields.Email()
     
     class Meta:
-        fields = ('id', 'email', 'name')
+       fields = ('id', 'email', 'name')
     
 '''
 class UsersSchema(Schema):

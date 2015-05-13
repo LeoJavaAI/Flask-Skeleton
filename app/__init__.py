@@ -7,4 +7,6 @@ app.secret_key = 'some_secret'
 db = SQLAlchemy(app)
 
 
-from app import controller, models
+#Blueprints
+from app.users.views import users
+app.register_blueprint(users, url_prefix='/users')

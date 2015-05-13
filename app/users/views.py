@@ -32,21 +32,19 @@ def user_add():
 
     return render_template('/users/add.html')
 
-@users.route('/update/<id>' , methods=['POST', 'GET'])
+@users.route('/update/<int:id>' , methods=['POST', 'GET'])
 
 def user_update (id):
     #Get user by primary key:
     user=Users.query.get_or_404(id)
     if request.method == 'POST':
-        user = json.dumps(request.form)
+        form_values = json.dumps(request.form)
         #De-serialize the object 
-        result = schema.loads(user)
-        if not result.errors:
-           name=request.form['name']
-           email=request.form['email']
-           user = Users(email, name)
-           user.update()
-           #return update(user , id, success_url = 'users.user_index', fail_url = 'users.user_update')
+        validate = schema.loads(form_values)
+        if not validate.errors:
+           user.name = request.form['name']
+           user.email = request.form['email']
+           return update(user , id, success_url = 'users.user_index', fail_url = 'users.user_update')
         else:
            flash(result.errors)
 
@@ -54,7 +52,7 @@ def user_update (id):
 
 
 
-@users.route('/delete/<id>' , methods=['POST', 'GET'])
+@users.route('/delete/<int:id>' , methods=['POST', 'GET'])
 def user_delete (id):
      user = Users.query.get_or_404(id)
      return delete(user, fail_url = 'users.user_index')
