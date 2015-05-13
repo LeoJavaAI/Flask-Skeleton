@@ -2,7 +2,7 @@ Flask-Skeleton allows you to quickly build a Skeleton CRUD application  in pytho
 
 Please ensure PostgreSQL is installed with the development libraries. Steps are available [here](http://techarena51.com/index.php/flask-sqlalchemy-postgresql-tutorial/)
 
-For Complete Documentation with screenshots and troubleshootin please see the ![wiki](https://github.com/Leo-g/Flask-Skeleton/wiki)
+For Complete Documentation with screenshots and troubleshootin please see the [wiki](https://github.com/Leo-g/Flask-Skeleton/wiki)
 
 ###Installation Steps
 ####Step 1:Clone the project to your application folder.
