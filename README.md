@@ -12,7 +12,9 @@ For Complete Documentation with screenshots and troubleshooting please see the [
 ####Step 2: Activate the virtual environment.
  
     cd YourAppFolderName
+    virtualenv -p /usr/bin/python3.4 venv-3.4
     source venv-3.4/bin/activate
+    pip install -r requirements.txt 
 
 #### Step 3 : Update the config file with your Database Username, Database Password, Database Name and Database Hostname
 
