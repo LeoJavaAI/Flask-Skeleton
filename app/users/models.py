@@ -1,7 +1,6 @@
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy.sql.expression import text
 from sqlalchemy.exc import SQLAlchemyError
-from marshmallow import Schema, fields, ValidationError
+from marshmallow import Schema, fields, validate
 
 db = SQLAlchemy()
 
@@ -29,11 +28,14 @@ class Users(db.Model):
      return session_commit()
 
 class UsersSchema(Schema):
-    name = fields.Str(required=True)
+
+    not_blank = validate.Length(min=1, error='Field cannot be blank')
+    name = fields.String(validate=not_blank)
     email = fields.Email()
     
     class Meta:
-       fields = ('id', 'email', 'name')   
+       fields = ('id', 'email', 'name')
+      
      
 def  session_commit ():
       try:
