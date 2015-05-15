@@ -13,9 +13,6 @@ class Users(db.Model):
     self.email=email
     self.name=name
 
-  def get_id(self):
-    return str(self.id)
-
   def add(self,user):
      db.session.add(user)
      return session_commit ()
