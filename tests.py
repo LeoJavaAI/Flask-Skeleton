@@ -33,7 +33,7 @@ class TestUsers(unittest.TestCase):
             rv = self.app.post('/users/update/{}'.format(id), data=dict(name = 'test name update', email = 'test@email.update'), follow_redirects=True)
             assert 'Update was successful' in rv.data.decode('utf-8')
 
-    def test_02_delete(self):
+    def test_03_delete(self):
                      with app.app_context():
                        id = Users.query.first().id
                        rv = self.app.post('/users/delete/{}'.format(id), follow_redirects=True)
