@@ -24,10 +24,10 @@ resource, resources = make_plural(input)
 app_resource_path = os.path.join('app',resources)
 app_files = ['__init__.py', 'views.py', 'models.py']
 template_resource_path = os.path.join('app/templates',resources)
-template_files = ['_form.html', 'index.html', 'update.html', 'add.html']
+template_files = ['add.html', '_form.html', 'index.html', 'update.html']
 
-def generate(file):
-    with open(os.path.join('app',resources, file), 'a') as new_file:
+def generate(resource_path, file):
+    with open(os.path.join(resource_path, file), 'a') as new_file:
         with open(os.path.join('scaffold/app/', file), 'r') as old_file:
                for line in old_file:
                    new_file.write(line.format(resource=resource, resources=resources, Resources=resources.title()))
@@ -39,19 +39,21 @@ def create_files(resource_path, files):
           try:  
               os.mkdir(resource_path)
               for file in files:                
-                   generate(file)
+                   generate(resource_path, file)
                   
               print('{} created successfully'.format(resource_path))
               return True
           except  OSError as e:         
              print(e)
+             return False
                
     else:
-       print('{} already exists'.format(resource_path))  
+       print('{} already exists'.format(resource_path))
+       return False       
        
        
 #Create the files
-if create_files(app_resource_path, app_files):
+if create_files(app_resource_path, app_files) and create_files(template_resource_path, template_files) :
     sys.exit(0)
 else:
     for path in [app_resource_path, template_resource_path]:

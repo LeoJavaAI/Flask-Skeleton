@@ -1,13 +1,11 @@
 
-{% extends "layout.html" %}
-  {% block body %}
+{{% extends "layout.html" %}}
+  {{% block body %}}
 
-    {% from 'users/_form.html' import user_form %}
+    {{% from '{resources}/_form.html' import {resource}_form %}}
 
-    {{ user_form(form_name = 'Add', user_name = '', user_email = '') }}
+    {{{{  {resource}_form(form_name = 'Add', {resource}_name = '', {resource}_email = '') }}}}
     
   
 			
-  {% endblock %}
-   
-
+  {{% endblock %}}
