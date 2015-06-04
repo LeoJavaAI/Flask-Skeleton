@@ -1,8 +1,7 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow import Schema, fields, validate
-
-db = SQLAlchemy()
+from app.users.models import db
 
 class {Resources}(db.Model):
   id = db.Column(db.Integer, primary_key=True)
