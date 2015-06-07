@@ -34,6 +34,16 @@ Crud operations are performed on a user resource.
 
 **You should be able to see the App at  http://localhost:5000/users**
 
+###Create a Scaffold
+    python scaffold.py posts
+    python db.py db migrate
+    python db.py db upgrade
+    python run.py
+
+**You should be able to see the App at  http://localhost:5000/posts**
+
+The above command will create a posts module in the app directory along with relevant templates in the templates folder.
+
 To run tests
 
       python tests.py
