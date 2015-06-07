@@ -42,7 +42,7 @@ Crud operations are performed on a user resource.
 
 **You should be able to see the App at  http://localhost:5000/posts**
 
-The above command will create a posts module in the app directory along with relevant templates in the templates folder.
+The above command will create a posts module in the app directory along with relevant templates in the templates folder. For complete details on Scaffold see https://github.com/Leo-g/Flask-Skeleton/wiki/Scaffolding
 
 To run tests
 
