@@ -4,7 +4,7 @@ import sys
 import inflect
 
 #Get name of the resource
-input = input("Enter resource name: ")
+input = sys.argv[1]
 
 def make_plural (resource):
     #https://pypi.python.org/pypi/inflect
