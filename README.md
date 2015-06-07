@@ -4,6 +4,7 @@ Please ensure PostgreSQL is installed with the development libraries. Steps are 
 
 For Complete Documentation with screenshots and troubleshooting please see the [wiki](https://github.com/Leo-g/Flask-Skeleton/wiki)
 
+![](https://travis-ci.org/Leo-g/Flask-Skeleton.svg?branch=master)
 ###Installation Steps
 ####Step 1:Clone the project to your application folder.
 
