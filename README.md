@@ -10,7 +10,7 @@ For Complete Documentation with screenshots and troubleshooting please see the [
 
     git clone git@github.com:Leo-g/Flask-Skeleton.git YourAppFolderName
 
-####Step 2: Activate the virtual environment.
+####Step 2: Activate the virtual environment and install the requirements.
  
     cd YourAppFolderName
     virtualenv -p /usr/bin/python3.4 venv-3.4
