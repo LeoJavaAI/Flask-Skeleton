@@ -1,0 +1,10 @@
+customers:
+ - name:string
+ - address:string
+ - is_active:Boolean
+ - mobile:Integer
+ - email:Email
+ - url:URL
+ - timestamp:DateTime
+ - date:date
+ - Time:Time
