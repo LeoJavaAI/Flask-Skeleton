@@ -18,13 +18,11 @@ def {resource}_add():
     if request.method == 'POST':
         #Validate form values by de-serializing the request, http://marshmallow.readthedocs.org/en/latest/quickstart.html#validation
         form_errors = schema.validate(request.form.to_dict())
-        if not form_errors:        
-            name=request.form['name']
-            email=request.form['email']
-            {resource}={Resources}(email, name)
+        if not form_errors:
+            {resource}={Resources}({add_fields})
             return add({resource}, success_url = '{resources}.{resource}_index', fail_url = '{resources}.{resource}_add')
         else:
-           flash(form_errors)        
+           flash(form_errors)
 
     return render_template('/{resources}/add.html')
 
@@ -36,8 +34,7 @@ def {resource}_update (id):
     if request.method == 'POST':
         form_errors = schema.validate(request.form.to_dict())
         if not form_errors:
-           {resource}.name = request.form['name']
-           {resource}.email = request.form['email']
+           {update_fields}
            return update({resource} , id, success_url = '{resources}.{resource}_index', fail_url = '{resources}.{resource}_update')
         else:
            flash(form_errors)
@@ -49,8 +46,8 @@ def {resource}_update (id):
 def {resource}_delete (id):
      {resource} = {Resources}.query.get_or_404(id)
      return delete({resource}, fail_url = '{resources}.{resource}_index')
-     
-     
+
+
 #CRUD FUNCTIONS
 #Arguments  are data to add, function to redirect to if the add was successful and if not
 def add (data, success_url = '', fail_url = ''):
