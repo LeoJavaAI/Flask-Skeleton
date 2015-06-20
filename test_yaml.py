@@ -4,6 +4,19 @@ import inflect
 import os
 import shutil
 
+#Error classes
+class Error(Exception):
+    """Base class for exceptions in this module."""
+    pass
+
+class BlueprintError(Error):
+
+    def __init__(self):
+        self.msg = "Cannot register Blueprints"
+
+    def __str__(self):
+        return repr(self.msg)
+
 
 def make_plural (resource):
     #https://pypi.python.org/pypi/inflect
@@ -18,7 +31,8 @@ def make_plural (resource):
 
 def generate_files (module_path):
 
-    app_files = ['views.py', 'models.py', '__init__.py','_form.html', 'add.html', 'update.html']
+    app_files = ['views.py', 'models.py', '__init__.py','_form.html', 'add.html', 'update.html',
+                 'index.html']
 
     for file in app_files:
 
@@ -72,8 +86,36 @@ def generate_files (module_path):
                          new_file.write(line.format(resource=resource, resources=resources,
                                                     Resources=resources.title(),
                                                     update_form_args=update_form_args))
+        elif file == "index.html":
+            with open( os.path.join(module_path, 'templates','index.html'), "w") as new_file:
+                with open( "scaffold/app/index.html" ,  "r") as old_file:
+                     for line in old_file:
+                         new_file.write(line.format(resource=resource, resources=resources,
+                                                    Resources=resources.title(),
+                                                    field_table_headers=field_table_headers,
+                                                    index_fields=index_fields))
 
-    return True
+
+def register_blueprints():
+    blueprint_file = 'test/app/__init__.py'
+    string_to_insert_after = '#Blueprints'
+    new_blueprint = """
+    #Blueprints
+    from app.{resources}.views import {resources}
+    app.register_blueprint({resources}, url_prefix='/{resources}', template_folder='templates')""".format(resources=resources)
+
+
+
+    with open(blueprint_file, 'r+') as old_file:
+        filedata = old_file.read()
+    if string_to_insert_after  in filedata:
+      #replace the first occurrence
+      new_filedata = filedata.replace(string_to_insert_after, new_blueprint,1)
+      with open(blueprint_file, 'w') as new_file:
+        new_file.write(new_filedata)
+        print("Registered Blueprints for ",resources)
+    else:
+      raise BlueprintError()
 
 
 def clean_up(module_path):
@@ -108,6 +150,10 @@ with open( "scaffold/app/module.yaml" , "r") as yaml_file:
         #stings to insert into update.html
         update_form_args =""
 
+        #stings to insert into index.html
+        field_table_headers =""
+        index_fields=""
+
 
 
         for f in fields:
@@ -134,6 +180,8 @@ with open( "scaffold/app/module.yaml" , "r") as yaml_file:
                    update_form_args += """{resource}_{field} = {resource}.{field}, """.format(resource=resource,
                                                                                              field=field)
 
+                   field_table_headers += """ <th>{field}</th> """.format(field=field)
+                   index_fields += """<td>{{{{ result['{field}'] }}}}</td>""".format(field=field)
 
 
         #Generate files with the new fields
@@ -145,8 +193,8 @@ with open( "scaffold/app/module.yaml" , "r") as yaml_file:
              try:
                  os.mkdir('{}/templates'.format(module_dir))
                  generate_files(module_dir)
-
                  print('{} created successfully'.format(module_dir))
+                 register_blueprints()
              except:
                  clean_up(module_dir)
                  raise
