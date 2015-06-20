@@ -1,22 +1,21 @@
 
-{{% macro {resource}_form(form_name = '', {resource}_name='', {resource}_email='') %}}
-  
+{{% macro {resource}_form(form_name = '', {form_args}) %}}
+
         <div class="center row">
             <div class="large-8 columns">
             <h4> {{{{ form_name }}}} {Resources}</h4>
-               <fieldset>  
-                <form action="" method="POST" > 
+               <fieldset>
+                <form action="" method="POST" >
   
-				  <label>Name <small>required</small><input type="text" name="name" value="{{{{ {resource}_name }}}}"  required/>	 </label>   
-				 <label> Email <small>required</small> <input type="email" name="email" value="{{{{ {resource}_email }}}}" required/> </label> 
-				 
+				 {form_fields}
+
 				   <button class="button "  type="submit">{{{{ form_name }}}}</button>
                   </form>
-                </fieldset>  
-				      
-            			   
+                </fieldset>
+
+
 				</div>
 			  </div>
-			  
-  
+
+
 {{% endmacro %}}

@@ -1,19 +1,10 @@
 {{% extends "layout.html" %}}
   {{% block body %}}
-      
+
 		{{% from '{resources}/_form.html' import {resource}_form %}}
 
-    {{{{ {resource}_form(form_name = 'Update', {resource}_name = {resource}.name, {resource}_email = {resource}.email) }}}}
-			 
+    {{{{ {resource}_form(form_name = 'Update', {update_form_args} }}}}
+
 {{% endblock %}}
-	
-   
-  
-   
 
-
-  
    
-  
-   
-
