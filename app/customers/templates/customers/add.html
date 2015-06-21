@@ -1,0 +1,11 @@
+
+{% extends "layout.html" %}
+  {% block body %}
+
+    {% from 'customers/_form.html' import customer_form %}
+
+    {{  customer_form(form_name = 'Add',) }}
+
+
+
+  {% endblock %}

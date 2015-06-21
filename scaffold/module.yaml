@@ -1,9 +1,10 @@
 customers:
  - name:String
- - address:String
+ - address:Text
  - is_active:Boolean
  - mobile:Integer
  - email:Email
  - url:URL
  - timestamp:DateTime
- - date:date
+ - date:Date
+ - pricing:Decimal

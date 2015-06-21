@@ -2,7 +2,7 @@
 from flask import Blueprint, render_template, request,flash, redirect, url_for
 from app.{resources}.models import {Resources}, {Resources}Schema
 
-{resources} = Blueprint('{resources}', __name__)
+{resources} = Blueprint('{resources}', __name__, template_folder='templates')
 #http://marshmallow.readthedocs.org/en/latest/quickstart.html#declaring-schemas
 schema = {Resources}Schema()
 
@@ -35,6 +35,7 @@ def {resource}_update (id):
         form_errors = schema.validate(request.form.to_dict())
         if not form_errors:
            {update_fields}
+
            return update({resource} , id, success_url = '{resources}.{resource}_index', fail_url = '{resources}.{resource}_update')
         else:
            flash(form_errors)

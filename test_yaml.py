@@ -3,7 +3,12 @@ import yaml
 import inflect
 import os
 import shutil
-from scaffold.custom_fields import boolean_form_string
+from scaffold.custom_fields import boolean_form_string,integer_form_string,email_form_string,\
+url_form_string, datetime_form_string, date_form_string, decimal_form_string, text_form_string
+
+
+
+blueprint_file = 'app/__init__.py'
 
 #Error classes
 class Error(Exception):
@@ -98,12 +103,11 @@ def generate_files (module_path):
 
 
 def register_blueprints():
-    blueprint_file = 'test/app/__init__.py'
     string_to_insert_after = '#Blueprints'
     new_blueprint = """
     #Blueprints
     from app.{resources}.views import {resources}
-    app.register_blueprint({resources}, url_prefix='/{resources}', template_folder='templates')""".format(resources=resources)
+    app.register_blueprint({resources}, url_prefix='/{resources}')""".format(resources=resources)
 
 
 
@@ -163,7 +167,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                    db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                    schema += """
-    {} = fields.String(validate=not_blank)""".format(field)
+        {} = fields.String(validate=not_blank)""".format(field)
 
                    form_fields +="""
            <label>{Field}
@@ -174,8 +178,60 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                          db_rows += """
     {} = db.Column(db.Boolean, nullable=False)""".format(field)
                          schema += """
-    {} = fields.Boolean(validate=not_blank)""".format(field)
-                         form_fields +=boolean_form_string.format(field=field, resource=resource)
+        {} = fields.Boolean(validate=not_blank)""".format(field)
+                         form_fields +=boolean_form_string.format(Field=field.title(),
+                                                                  field=field, resource=resource)
+            elif field_type == "Integer":
+                     db_rows += """
+    {} = db.Column(db.Integer, nullable=False)""".format(field)
+                     schema += """
+        {} = fields.Integer(validate=not_blank)""".format(field)
+                     form_fields +=integer_form_string.format(Field=field.title(),
+                                                              field=field, resource=resource)
+            elif field_type == "Email":
+                             db_rows += """
+    {} = db.Column(db.String(250), nullable=False)""".format(field)
+                             schema += """
+        {} = fields.Email(validate=not_blank)""".format(field)
+                             form_fields +=email_form_string.format(Field=field.title(),
+                                                                      field=field, resource=resource)
+            elif field_type == "URL":
+                                     db_rows += """
+    {} = db.Column(db.String(250), nullable=False)""".format(field)
+                                     schema += """
+        {} = fields.URL(validate=not_blank)""".format(field)
+                                     form_fields +=url_form_string.format(Field=field.title(),
+                                                                              field=field, resource=resource)
+            elif field_type == "DateTime":
+                     db_rows += """
+    {} = db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp(),nullable=False)""".format(field)
+                     schema += """
+        {} = fields.DateTime(validate=not_blank)""".format(field)
+                     form_fields +=datetime_form_string.format(Field=field.title(),
+                                                              field=field, resource=resource)
+            elif field_type == "Date":
+                     db_rows += """
+    {} = db.Column(db.Date, nullable=False)""".format(field)
+                     schema += """
+        {} = fields.Date(validate=not_blank)""".format(field)
+                     form_fields +=date_form_string.format(Field=field.title(),
+                                                              field=field, resource=resource)
+
+            elif field_type == "Decimal":
+                     db_rows += """
+    {} = db.Column(db.Numeric, nullable=False)""".format(field)
+                     schema += """
+        {} = fields.Decimal(validate=not_blank)""".format(field)
+                     form_fields +=decimal_form_string.format(Field=field.title(),
+                                                              field=field, resource=resource)
+
+            elif field_type == "Text":
+                     db_rows += """
+    {} = db.Column(db.Text, nullable=False)""".format(field)
+                     schema += """
+        {} = fields.String(validate=not_blank)""".format(field)
+                     form_fields +=text_form_string.format(Field=field.title(),
+                                                              field=field, resource=resource)
 
 
             #models
@@ -184,9 +240,10 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
             init_self_vars += """
     self.{field} = {field}""".format(field=field)
             #Views
-            add_fields +="""'request.form['{}']',""".format(field)
+            add_fields +="""
+                                "request.form['{}']",""".format(field)
             update_fields +="""
-    {resource}.{field} = request.form['{field}'] """.format(resource=resource, field=field)
+            {resource}.{field} = request.form['{field}']""".format(resource=resource, field=field)
             #_form.html
             form_args += """{resource}_{field} = '',""".format(resource=resource, field=field)
             field_table_headers += """ <th>{field}</th> """.format(field=field)
@@ -196,8 +253,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
 
 
         #Generate files with the new fields
-        module_dir = os.path.join('test/app',resources)
-
+        module_dir = os.path.join('app',resources)
 
         try:
              os.mkdir(module_dir)

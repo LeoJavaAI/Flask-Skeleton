@@ -1,0 +1,41 @@
+       #!/usr/bin/env python
+    1: import yaml
+       
+       #Parse YAML file
+    1: with open( "scaffold/app/module.yaml" , "r") as yaml_file:
+       
+    1:     yaml_data = yaml.load(yaml_file)
+       
+    2:     for module, fields in yaml_data.items():
+    1:         db_rows = ""
+    1:         schema = ""
+    1:         meta = ""
+       
+   10:         for f in fields:
+    9:             field, field_type = f.split(':')
+    9:             if field_type == "string":
+    2:                    db_rows += """
+    2:         {} = db.Column(db.String(250), nullable=False)""".format(field)
+    2:                    schema += """
+    2:         {} = fields.String(validate=not_blank)""".format(field)
+    2:                    meta += """ '{}', """.format(field)
+       
+       
+               #Generate Models
+    1:         with open( "scaffold/app/models.py" , "r") as old_file:
+    1:             old_file_data = old_file.read()
+       
+    1:             add_db_rows_after ="id = db.Column(db.Integer, primary_key=True)"
+    1:             add_schema_after = "not_blank = validate.Length(min=1, error='Field cannot be blank')"
+       
+    1:             replace_dict={db_rows:add_db_rows_after, schema:add_schema_after}
+       
+    1:             def replace_string(file_data,old_string, new_string):
+                        #replace first instance only
+    2:                  return file_data.replace(old_string, new_string, 1)
+       
+    1:             new_file_data = ""
+    3:             for old,new in replace_dict.items():
+    2:                 new_file_data = replace_string(old_file_data,old, new)
+    2:                 with open( "models.py" , "w") as new_file:
+    2:                     new_file.write(new_file_data)
