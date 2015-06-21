@@ -3,6 +3,7 @@ import yaml
 import inflect
 import os
 import shutil
+from scaffold.custom_fields import boolean_form_string
 
 #Error classes
 class Error(Exception):
@@ -123,7 +124,7 @@ def clean_up(module_path):
             shutil.rmtree(module_path)
 
 #Parse YAML file
-with open( "scaffold/app/module.yaml" , "r") as yaml_file:
+with open( "scaffold/module.yaml" , "r") as yaml_file:
 
     yaml_data = yaml.load(yaml_file)
 
@@ -158,30 +159,40 @@ with open( "scaffold/app/module.yaml" , "r") as yaml_file:
 
         for f in fields:
             field, field_type = f.split(':')
-            if field_type == "string":
+            if field_type == "String":
                    db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                    schema += """
     {} = fields.String(validate=not_blank)""".format(field)
-                   meta += """ '{}', """.format(field)
-                   init_args += """ {}, """.format(field)
-                   init_self_vars += """
-        self.{field} = {field}""".format(field=field)
-                   #Views
-                   add_fields +="""'request.form['{}']',""".format(field)
-                   update_fields +="""
-           {resource}.{field} = request.form['{field}'] """.format(resource=resource, field=field)
-                   #_form.html
-                   form_args += """{resource}_{field} = '',""".format(resource=resource, field=field)
-                   form_fields +="""
-        <label>{Field}
-         <small>required</small><input type="text" name="{field}" value="{{{{ {resource}_{field} }}}}"  required/>
-        </label> """.format(Field=field.title(), field=field, resource=resource)
-                   update_form_args += """{resource}_{field} = {resource}.{field}, """.format(resource=resource,
-                                                                                             field=field)
 
-                   field_table_headers += """ <th>{field}</th> """.format(field=field)
-                   index_fields += """<td>{{{{ result['{field}'] }}}}</td>""".format(field=field)
+                   form_fields +="""
+           <label>{Field}
+           <small>required</small><input type="text" name="{field}" value="{{{{ {resource}_{field} }}}}"  required/>
+           </label> """.format(Field=field.title(), field=field, resource=resource)
+
+            elif field_type == "Boolean":
+                         db_rows += """
+    {} = db.Column(db.Boolean, nullable=False)""".format(field)
+                         schema += """
+    {} = fields.Boolean(validate=not_blank)""".format(field)
+                         form_fields +=boolean_form_string.format(field=field, resource=resource)
+
+
+            #models
+            meta += """ '{}', """.format(field)
+            init_args += """ {}, """.format(field)
+            init_self_vars += """
+    self.{field} = {field}""".format(field=field)
+            #Views
+            add_fields +="""'request.form['{}']',""".format(field)
+            update_fields +="""
+    {resource}.{field} = request.form['{field}'] """.format(resource=resource, field=field)
+            #_form.html
+            form_args += """{resource}_{field} = '',""".format(resource=resource, field=field)
+            field_table_headers += """ <th>{field}</th> """.format(field=field)
+            index_fields += """<td>{{{{ result['{field}'] }}}}</td>""".format(field=field)
+            update_form_args += """{resource}_{field} = {resource}.{field}, """.format(resource=resource,
+                                                                                      field=field)
 
 
         #Generate files with the new fields
