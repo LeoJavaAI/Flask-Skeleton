@@ -11,9 +11,15 @@ def create_app(config_filename):
 
 
 
+
+
+    
     #Blueprints
     from app.customers.views import customers
     app.register_blueprint(customers, url_prefix='/customers')
+    from app.customers.views import customers
+    app.register_blueprint(customers, url_prefix='/customers')
+
 
     from app.users.views import users
     app.register_blueprint(users, url_prefix='/users')

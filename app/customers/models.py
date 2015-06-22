@@ -6,7 +6,7 @@ from app.users.models import db
 
 class Customers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-
+    
     name = db.Column(db.String(250), nullable=False)
     address = db.Column(db.Text, nullable=False)
     is_active = db.Column(db.Boolean, nullable=False)
@@ -18,7 +18,7 @@ class Customers(db.Model):
     pricing = db.Column(db.Numeric, nullable=False)
 
     def __init__(self,  name,  address,  is_active,  mobile,  email,  url,  timestamp,  date,  pricing, ):
-
+        
         self.name = name
         self.address = address
         self.is_active = is_active
@@ -44,7 +44,7 @@ class Customers(db.Model):
 class CustomersSchema(Schema):
 
     not_blank = validate.Length(min=1, error='Field cannot be blank')
-
+    
     name = fields.String(validate=not_blank)
     address = fields.String(validate=not_blank)
     is_active = fields.Boolean(validate=not_blank)

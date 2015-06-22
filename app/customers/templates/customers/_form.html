@@ -6,19 +6,40 @@
             <h4> {{ form_name }} Customers</h4>
                <fieldset>
                 <form action="" method="POST" >
-
-
+  
+				 
            <label>Name
            <small>required</small><input type="text" name="name" value="{{ customer_name }}"  required/>
            </label> <label>Address
     <small>required</small><textarea type="text" name="address" rows="20" > {{ customer_address }}
     </textarea>
-    </label>
-    <label>Mobile
-    <small>required</small><input type="number" name="mobile" value="{{ customer_mobile }}"  required/>
-    </label>
+    </label> <!-- START STATUS -->
+        {% if form_name == 'Update' %}
 
-    <label>Email
+            <div class="small-6 columns">
+            <label>Is_Active</label>
+              {% if customer.is_active %}
+                <input type="radio" name="is_active" value="True"  checked/><label>True</label>
+                <input type="radio" name="is_active" value="False"/><label>False</label>
+              {% else %}
+               <input type="radio" name="is_active" value="True"  /><label>True</label>
+               <input type="radio" name="is_active" value="False" checked/><label>False</label>
+
+              {% endif %}
+                </div>
+        <!-- For a new customer-->
+        {% else %}
+
+           <div class="small-6 columns">
+             <label>Is_Active</label>
+               <input type="radio" name="is_active" value="True"  checked/><label>True</label>
+               <input type="radio" name="is_active" value="False"/><label>False</label>
+                 </div>
+       {% endif %}
+
+           <!-- End STATUS --><label>Mobile
+    <small>required</small><input type="number" name="mobile" value="{{ customer_mobile }}"  required/>
+    </label> <label>Email
     <small>required</small><input type="email" name="email" value="{{ customer_email }}"  required/>
     </label> <label>Url
     <small>required</small><input type="url" name="url" value="{{ customer_url }}"  required/>
@@ -28,18 +49,8 @@
     <small>required</small><input type="date" name="date" value="{{ customer_date }}"  required/>
     </label> <label>Pricing
     <small>required</small><input type="number" name="pricing" value="{{ customer_pricing }}"  required/>
-    </label>
+    </label> 
 
-
-
-        <!-- START STATUS -->
-
-                <label>Is_Active</label>
-                  <input type="radio" name="is_active" value="True"  checked/><label>True</label>
-                  <input type="radio" name="is_active" value="False"/><label>False</label>
-        
-
-        <!-- End STATUS -->
 				   <button class="button "  type="submit">{{ form_name }}</button>
                   </form>
                 </fieldset>

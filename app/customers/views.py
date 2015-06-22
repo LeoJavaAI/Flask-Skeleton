@@ -43,7 +43,7 @@ def customer_update (id):
     if request.method == 'POST':
         form_errors = schema.validate(request.form.to_dict())
         if not form_errors:
-
+           
             customer.name = request.form['name']
             customer.address = request.form['address']
             customer.is_active = request.form['is_active']
@@ -53,6 +53,7 @@ def customer_update (id):
             customer.timestamp = request.form['timestamp']
             customer.date = request.form['date']
             customer.pricing = request.form['pricing']
+
             return update(customer , id, success_url = 'customers.customer_index', fail_url = 'customers.customer_update')
         else:
            flash(form_errors)

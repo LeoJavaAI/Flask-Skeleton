@@ -36,7 +36,7 @@ def {resource}_update (id):
         if not form_errors:
            {update_fields}
 
-           return update({resource} , id, success_url = '{resources}.{resource}_index', fail_url = '{resources}.{resource}_update')
+            return update({resource} , id, success_url = '{resources}.{resource}_index', fail_url = '{resources}.{resource}_update')
         else:
            flash(form_errors)
 

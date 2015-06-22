@@ -6,8 +6,6 @@ import shutil
 from scaffold.custom_fields import boolean_form_string,integer_form_string,email_form_string,\
 url_form_string, datetime_form_string, date_form_string, decimal_form_string, text_form_string
 
-
-
 blueprint_file = 'app/__init__.py'
 
 #Error classes
@@ -72,28 +70,29 @@ def generate_files (module_path):
         #Generate Template Files
         ## Need to add template resourc path
         elif file == "_form.html":
-             with open( os.path.join(module_path,'templates','_form.html'), "w") as new_file:
+             with open( os.path.join(module_path,'templates', resources, '_form.html'), "w") as new_file:
                  with open( "scaffold/app/_form.html" , "r") as old_file:
                       for line in old_file:
                           new_file.write(line.format(resource=resource, resources=resources,
-                                                     Resources=resources.title(), form_args=form_args,
+                                                     Resources=resources.title(),
+                                                     form_args=','.join(form_args),
                                                      form_fields =form_fields))
 
         elif file == "add.html":
-            with open( os.path.join(module_path,'templates','add.html'), "w") as new_file:
+            with open( os.path.join(module_path,'templates', resources,'add.html'), "w") as new_file:
                 with open( "scaffold/app/add.html" , "r") as old_file:
                      for line in old_file:
                          new_file.write(line.format(resource=resource, resources=resources,
                                                     Resources=resources.title()))
         elif file == "update.html":
-            with open( os.path.join(module_path, 'templates','update.html'), "w") as new_file:
+            with open( os.path.join(module_path, 'templates', resources,'update.html'), "w") as new_file:
                 with open( "scaffold/app/update.html" ,  "r") as old_file:
                      for line in old_file:
                          new_file.write(line.format(resource=resource, resources=resources,
                                                     Resources=resources.title(),
                                                     update_form_args=update_form_args))
         elif file == "index.html":
-            with open( os.path.join(module_path, 'templates','index.html'), "w") as new_file:
+            with open( os.path.join(module_path, 'templates', resources,'index.html'), "w") as new_file:
                 with open( "scaffold/app/index.html" ,  "r") as old_file:
                      for line in old_file:
                          new_file.write(line.format(resource=resource, resources=resources,
@@ -149,7 +148,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
         update_fields =""
 
         #strings to insert into _form.html
-        form_args = ""
+        form_args = []
         form_fields =""
 
         #stings to insert into update.html
@@ -167,7 +166,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                    db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                    schema += """
-        {} = fields.String(validate=not_blank)""".format(field)
+    {} = fields.String(validate=not_blank)""".format(field)
 
                    form_fields +="""
            <label>{Field}
@@ -178,42 +177,42 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                          db_rows += """
     {} = db.Column(db.Boolean, nullable=False)""".format(field)
                          schema += """
-        {} = fields.Boolean(validate=not_blank)""".format(field)
+    {} = fields.Boolean(validate=not_blank)""".format(field)
                          form_fields +=boolean_form_string.format(Field=field.title(),
                                                                   field=field, resource=resource)
             elif field_type == "Integer":
                      db_rows += """
     {} = db.Column(db.Integer, nullable=False)""".format(field)
                      schema += """
-        {} = fields.Integer(validate=not_blank)""".format(field)
+    {} = fields.Integer(validate=not_blank)""".format(field)
                      form_fields +=integer_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
             elif field_type == "Email":
                              db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                              schema += """
-        {} = fields.Email(validate=not_blank)""".format(field)
+    {} = fields.Email(validate=not_blank)""".format(field)
                              form_fields +=email_form_string.format(Field=field.title(),
                                                                       field=field, resource=resource)
             elif field_type == "URL":
                                      db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                                      schema += """
-        {} = fields.URL(validate=not_blank)""".format(field)
+    {} = fields.URL(validate=not_blank)""".format(field)
                                      form_fields +=url_form_string.format(Field=field.title(),
                                                                               field=field, resource=resource)
             elif field_type == "DateTime":
                      db_rows += """
     {} = db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp(),nullable=False)""".format(field)
                      schema += """
-        {} = fields.DateTime(validate=not_blank)""".format(field)
+    {} = fields.DateTime(validate=not_blank)""".format(field)
                      form_fields +=datetime_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
             elif field_type == "Date":
                      db_rows += """
     {} = db.Column(db.Date, nullable=False)""".format(field)
                      schema += """
-        {} = fields.Date(validate=not_blank)""".format(field)
+    {} = fields.Date(validate=not_blank)""".format(field)
                      form_fields +=date_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
 
@@ -221,7 +220,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                      db_rows += """
     {} = db.Column(db.Numeric, nullable=False)""".format(field)
                      schema += """
-        {} = fields.Decimal(validate=not_blank)""".format(field)
+    {} = fields.Decimal(validate=not_blank)""".format(field)
                      form_fields +=decimal_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
 
@@ -229,7 +228,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                      db_rows += """
     {} = db.Column(db.Text, nullable=False)""".format(field)
                      schema += """
-        {} = fields.String(validate=not_blank)""".format(field)
+    {} = fields.String(validate=not_blank)""".format(field)
                      form_fields +=text_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
 
@@ -238,14 +237,14 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
             meta += """ '{}', """.format(field)
             init_args += """ {}, """.format(field)
             init_self_vars += """
-    self.{field} = {field}""".format(field=field)
+        self.{field} = {field}""".format(field=field)
             #Views
             add_fields +="""
                                 "request.form['{}']",""".format(field)
             update_fields +="""
             {resource}.{field} = request.form['{field}']""".format(resource=resource, field=field)
             #_form.html
-            form_args += """{resource}_{field} = '',""".format(resource=resource, field=field)
+            form_args.append("""{resource}_{field} = ''""".format(resource=resource, field=field))
             field_table_headers += """ <th>{field}</th> """.format(field=field)
             index_fields += """<td>{{{{ result['{field}'] }}}}</td>""".format(field=field)
             update_form_args += """{resource}_{field} = {resource}.{field}, """.format(resource=resource,
@@ -258,7 +257,8 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
         try:
              os.mkdir(module_dir)
              try:
-                 os.mkdir('{}/templates'.format(module_dir))
+                 os.makedirs('{module_dir}/templates/{resources}'.format(module_dir=module_dir,
+                                                                      resources=resources ))
                  generate_files(module_dir)
                  print('{} created successfully'.format(module_dir))
                  register_blueprints()
