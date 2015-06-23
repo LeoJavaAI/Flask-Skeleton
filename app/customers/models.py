@@ -45,15 +45,15 @@ class CustomersSchema(Schema):
 
     not_blank = validate.Length(min=1, error='Field cannot be blank')
     
-    name = fields.String(validate=not_blank)
-    address = fields.String(validate=not_blank)
-    is_active = fields.Boolean(validate=not_blank)
-    mobile = fields.Integer(validate=not_blank)
-    email = fields.Email(validate=not_blank)
-    url = fields.URL(validate=not_blank)
-    timestamp = fields.DateTime(validate=not_blank)
-    date = fields.Date(validate=not_blank)
-    pricing = fields.Decimal(validate=not_blank)
+    name = fields.String()
+    address = fields.String()
+    is_active = fields.Boolean()
+    mobile = fields.Integer()
+    email = fields.Email()
+    url = fields.URL()
+    timestamp = fields.DateTime()
+    date = fields.Date()
+    pricing = fields.Decimal()
 
     class Meta:
         fields = ('id',  'name',  'address',  'is_active',  'mobile',  'email',  'url',  'timestamp',  'date',  'pricing', )

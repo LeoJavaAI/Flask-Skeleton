@@ -21,7 +21,7 @@ date_form_string = """<label>{Field}
     </label> """
 
 decimal_form_string = """<label>{Field}
-    <small>required</small><input type="number" name="{field}" value="{{{{ {resource}_{field} }}}}"  required/>
+    <small>required</small><input type="number" name="{field}" step="any" value="{{{{ {resource}_{field} }}}}"  required/>
     </label> """
 
 text_form_string = """<label>{Field}
@@ -30,11 +30,12 @@ text_form_string = """<label>{Field}
     </label> """
 
 boolean_form_string = """<!-- START STATUS -->
+      <div class="center row">
         {{% if form_name == 'Update' %}}
 
             <div class="small-6 columns">
             <label>{Field}</label>
-              {{% if {resource}.{field} %}}
+              {{% if {resource}_{field} %}}
                 <input type="radio" name="{field}" value="True"  checked/><label>True</label>
                 <input type="radio" name="{field}" value="False"/><label>False</label>
               {{% else %}}
@@ -52,5 +53,5 @@ boolean_form_string = """<!-- START STATUS -->
                <input type="radio" name="{field}" value="False"/><label>False</label>
                  </div>
        {{% endif %}}
-
+   </div>
            <!-- End STATUS -->"""

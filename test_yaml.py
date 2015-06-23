@@ -166,7 +166,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                    db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                    schema += """
-    {} = fields.String(validate=not_blank)""".format(field)
+    {} = fields.String()""".format(field)
 
                    form_fields +="""
            <label>{Field}
@@ -177,42 +177,42 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                          db_rows += """
     {} = db.Column(db.Boolean, nullable=False)""".format(field)
                          schema += """
-    {} = fields.Boolean(validate=not_blank)""".format(field)
+    {} = fields.Boolean()""".format(field)
                          form_fields +=boolean_form_string.format(Field=field.title(),
                                                                   field=field, resource=resource)
             elif field_type == "Integer":
                      db_rows += """
     {} = db.Column(db.Integer, nullable=False)""".format(field)
                      schema += """
-    {} = fields.Integer(validate=not_blank)""".format(field)
+    {} = fields.Integer()""".format(field)
                      form_fields +=integer_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
             elif field_type == "Email":
                              db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                              schema += """
-    {} = fields.Email(validate=not_blank)""".format(field)
+    {} = fields.Email()""".format(field)
                              form_fields +=email_form_string.format(Field=field.title(),
                                                                       field=field, resource=resource)
             elif field_type == "URL":
                                      db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                                      schema += """
-    {} = fields.URL(validate=not_blank)""".format(field)
+    {} = fields.URL()""".format(field)
                                      form_fields +=url_form_string.format(Field=field.title(),
                                                                               field=field, resource=resource)
             elif field_type == "DateTime":
                      db_rows += """
     {} = db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp(),nullable=False)""".format(field)
                      schema += """
-    {} = fields.DateTime(validate=not_blank)""".format(field)
+    {} = fields.DateTime()""".format(field)
                      form_fields +=datetime_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
             elif field_type == "Date":
                      db_rows += """
     {} = db.Column(db.Date, nullable=False)""".format(field)
                      schema += """
-    {} = fields.Date(validate=not_blank)""".format(field)
+    {} = fields.Date()""".format(field)
                      form_fields +=date_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
 
@@ -220,7 +220,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                      db_rows += """
     {} = db.Column(db.Numeric, nullable=False)""".format(field)
                      schema += """
-    {} = fields.Decimal(validate=not_blank)""".format(field)
+    {} = fields.Decimal()""".format(field)
                      form_fields +=decimal_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
 
@@ -228,7 +228,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                      db_rows += """
     {} = db.Column(db.Text, nullable=False)""".format(field)
                      schema += """
-    {} = fields.String(validate=not_blank)""".format(field)
+    {} = fields.String()""".format(field)
                      form_fields +=text_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
 
@@ -240,7 +240,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
         self.{field} = {field}""".format(field=field)
             #Views
             add_fields +="""
-                                "request.form['{}']",""".format(field)
+                                request.form['{}'],""".format(field)
             update_fields +="""
             {resource}.{field} = request.form['{field}']""".format(resource=resource, field=field)
             #_form.html

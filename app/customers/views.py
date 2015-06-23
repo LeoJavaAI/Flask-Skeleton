@@ -20,15 +20,15 @@ def customer_add():
         form_errors = schema.validate(request.form.to_dict())
         if not form_errors:
             customer=Customers(
-                                "request.form['name']",
-                                "request.form['address']",
-                                "request.form['is_active']",
-                                "request.form['mobile']",
-                                "request.form['email']",
-                                "request.form['url']",
-                                "request.form['timestamp']",
-                                "request.form['date']",
-                                "request.form['pricing']",)
+                                request.form['name'],
+                                request.form['address'],
+                                request.form['is_active'],
+                                request.form['mobile'],
+                                request.form['email'],
+                                request.form['url'],
+                                request.form['timestamp'],
+                                request.form['date'],
+                                request.form['pricing'],)
             return add(customer, success_url = 'customers.customer_index', fail_url = 'customers.customer_add')
         else:
            flash(form_errors)

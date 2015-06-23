@@ -14,11 +14,12 @@
     <small>required</small><textarea type="text" name="address" rows="20" > {{ customer_address }}
     </textarea>
     </label> <!-- START STATUS -->
+      <div class="center row">
         {% if form_name == 'Update' %}
 
             <div class="small-6 columns">
             <label>Is_Active</label>
-              {% if customer.is_active %}
+              {% if customer_is_active %}
                 <input type="radio" name="is_active" value="True"  checked/><label>True</label>
                 <input type="radio" name="is_active" value="False"/><label>False</label>
               {% else %}
@@ -36,7 +37,7 @@
                <input type="radio" name="is_active" value="False"/><label>False</label>
                  </div>
        {% endif %}
-
+   </div>
            <!-- End STATUS --><label>Mobile
     <small>required</small><input type="number" name="mobile" value="{{ customer_mobile }}"  required/>
     </label> <label>Email
