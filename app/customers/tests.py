@@ -1,6 +1,6 @@
 import unittest
-from . import create_app
-from models import {Resources}
+from Flask-Skeleton.app import create_app
+from models import Customers
 
 app = create_app('config')
 
