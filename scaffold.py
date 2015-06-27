@@ -3,6 +3,7 @@ import yaml
 import inflect
 import os
 import shutil
+import sys
 from scaffold.custom_fields import *
 
 blueprint_file = 'app/__init__.py'
