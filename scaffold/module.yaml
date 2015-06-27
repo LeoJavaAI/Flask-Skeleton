@@ -8,3 +8,17 @@ customers:
  - timestamp:DateTime
  - date:Date
  - pricing:Decimal
+
+orders:
+ - name:String
+ - address:Text
+ - is_active:Boolean
+ - mobile:Integer
+
+posts:
+  - name:String
+  - address:Text
+  - is_active:Boolean
+  - mobile:Integer
+  - comment:String
+  - timestamp:DateTime

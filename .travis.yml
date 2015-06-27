@@ -4,15 +4,14 @@ python:
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # command to run tests
-script: python tests.py
+script: bash tests.bash
 
 addons:
   postgresql: "9.3"
 
 before_script:
   - psql -c 'create database test;' -U postgres
-  - python scaffold.py post
+  - python scaffold.py scaffold/module.yaml
   - python db.py db init
   - python db.py db migrate
   - python db.py db upgrade
- 

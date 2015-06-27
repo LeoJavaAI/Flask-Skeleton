@@ -7,6 +7,7 @@ from scaffold.custom_fields import *
 
 blueprint_file = 'app/__init__.py'
 test_script = 'tests.bash'
+yaml_file = sys.argv[1]
 
 #Error classes
 class Error(Exception):
