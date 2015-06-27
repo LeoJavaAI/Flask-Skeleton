@@ -3,8 +3,7 @@ import yaml
 import inflect
 import os
 import shutil
-from scaffold.custom_fields import boolean_form_string,integer_form_string,email_form_string,\
-url_form_string, datetime_form_string, date_form_string, decimal_form_string, text_form_string
+from scaffold.custom_fields import *
 
 blueprint_file = 'app/__init__.py'
 
@@ -36,7 +35,7 @@ def make_plural (resource):
 def generate_files (module_path):
 
     app_files = ['views.py', 'models.py', '__init__.py','_form.html', 'add.html', 'update.html',
-                 'index.html']
+                 'index.html', 'tests.py']
 
     for file in app_files:
 
@@ -57,15 +56,27 @@ def generate_files (module_path):
                 with open( "scaffold/app/models.py" , "r") as old_file:
                      for line in old_file:
                          new_file.write(line.format(resource=resource, resources=resources,
-                                                    Resources=resources.title(), db_rows=db_rows,
-                                                     schema=schema, meta=meta, init_self_vars=init_self_vars,
-                                                     init_args=init_args))
+                                                    Resources=resources.title(),
+                                                    db_rows=db_rows,
+                                                    schema=schema, meta=meta,
+                                                    init_self_vars=init_self_vars,
+                                                    init_args=init_args ))
 
         elif file == "__init__.py":
             with open( os.path.join(module_path,'__init__.py'), "w") as new_file:
                 with open( "scaffold/app/__init__.py" , "r") as old_file:
                      for line in old_file:
                          new_file.write(line)
+
+
+        #Tests
+        elif file == "tests.py":
+              with open( os.path.join(module_path,'tests.py'), "w") as new_file:
+                  with open( "scaffold/app/tests.py" , "r") as old_file:
+                       for line in old_file:
+                           new_file.write(line.format(resource=resource, resources=resources,
+                                                      Resources=resources.title(),
+                                                      test_add_fields=test_add_fields))
 
         #Generate Template Files
         ## Need to add template resourc path
@@ -99,6 +110,7 @@ def generate_files (module_path):
                                                     Resources=resources.title(),
                                                     field_table_headers=field_table_headers,
                                                     index_fields=index_fields))
+
 
 
 def register_blueprints():
@@ -151,12 +163,16 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
         form_args = []
         form_fields =""
 
-        #stings to insert into update.html
+        #strings to insert into update.html
         update_form_args =""
 
-        #stings to insert into index.html
+        #strings to insert into index.html
         field_table_headers =""
         index_fields=""
+
+        #strings to insert into tests.py
+        test_add_fields =""
+        
 
 
 
@@ -167,7 +183,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = db.Column(db.String(250), nullable=False)""".format(field)
                    schema += """
     {} = fields.String()""".format(field)
-
+                   test_add_fields += string_test.format(field)
                    form_fields +="""
            <label>{Field}
            <small>required</small><input type="text" name="{field}" value="{{{{ {resource}_{field} }}}}"  required/>
@@ -180,6 +196,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.Boolean()""".format(field)
                          form_fields +=boolean_form_string.format(Field=field.title(),
                                                                   field=field, resource=resource)
+                         test_add_fields += boolean_test.format(field)
             elif field_type == "Integer":
                      db_rows += """
     {} = db.Column(db.Integer, nullable=False)""".format(field)
@@ -187,6 +204,8 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.Integer()""".format(field)
                      form_fields +=integer_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
+                     test_add_fields += integer_test.format(field)
+
             elif field_type == "Email":
                              db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
@@ -194,6 +213,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.Email()""".format(field)
                              form_fields +=email_form_string.format(Field=field.title(),
                                                                       field=field, resource=resource)
+                             test_add_fields += email_test.format(field)
             elif field_type == "URL":
                                      db_rows += """
     {} = db.Column(db.String(250), nullable=False)""".format(field)
@@ -201,6 +221,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.URL()""".format(field)
                                      form_fields +=url_form_string.format(Field=field.title(),
                                                                               field=field, resource=resource)
+                                     test_add_fields += url_test.format(field)
             elif field_type == "DateTime":
                      db_rows += """
     {} = db.Column(db.TIMESTAMP,server_default=db.func.current_timestamp(),nullable=False)""".format(field)
@@ -208,6 +229,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.DateTime()""".format(field)
                      form_fields +=datetime_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
+                     test_add_fields += date_time_test.format(field)
             elif field_type == "Date":
                      db_rows += """
     {} = db.Column(db.Date, nullable=False)""".format(field)
@@ -215,6 +237,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.Date()""".format(field)
                      form_fields +=date_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
+                     test_add_fields += date_test.format(field)
 
             elif field_type == "Decimal":
                      db_rows += """
@@ -223,6 +246,9 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.Decimal()""".format(field)
                      form_fields +=decimal_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
+                     test_add_fields += decimal_test.format(field)
+
+
 
             elif field_type == "Text":
                      db_rows += """
@@ -231,6 +257,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
     {} = fields.String()""".format(field)
                      form_fields +=text_form_string.format(Field=field.title(),
                                                               field=field, resource=resource)
+                     test_add_fields += text_test.format(field)
 
 
             #models
@@ -249,7 +276,6 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
             index_fields += """<td>{{{{ result['{field}'] }}}}</td>""".format(field=field)
             update_form_args += """{resource}_{field} = {resource}.{field}, """.format(resource=resource,
                                                                                       field=field)
-
 
         #Generate files with the new fields
         module_dir = os.path.join('app',resources)
