@@ -6,6 +6,7 @@ import shutil
 from scaffold.custom_fields import *
 
 blueprint_file = 'app/__init__.py'
+test_script = 'tests.bash'
 
 #Error classes
 class Error(Exception):
@@ -16,6 +17,14 @@ class BlueprintError(Error):
 
     def __init__(self):
         self.msg = "Cannot register Blueprints"
+
+    def __str__(self):
+        return repr(self.msg)
+
+class TestScriptError(Error):
+
+    def __init__(self):
+        self.msg = "Cannot add tests to bash script"
 
     def __str__(self):
         return repr(self.msg)
@@ -71,7 +80,7 @@ def generate_files (module_path):
 
         #Tests
         elif file == "tests.py":
-              with open( os.path.join(module_path,'tests.py'), "w") as new_file:
+              with open( os.path.join(module_path,'test_{}.py'.format(resources)), "w") as new_file:
                   with open( "scaffold/app/tests.py" , "r") as old_file:
                        for line in old_file:
                            new_file.write(line.format(resource=resource, resources=resources,
@@ -133,6 +142,20 @@ def register_blueprints():
     else:
       raise BlueprintError()
 
+def add_tests():
+    string_to_insert_after = '#TESTS'
+    new_tests = test_script_string.format(resources)
+    with open(test_script, 'r+') as old_file:
+        filedata = old_file.read()
+    if string_to_insert_after  in filedata:
+      #replace the first occurrence
+      new_filedata = filedata.replace(string_to_insert_after, new_tests,1)
+      with open(test_script, 'w') as new_file:
+        new_file.write(new_filedata)
+        print("Created Tests for ",resources)
+    else:
+      raise TestScriptError()
+
 
 def clean_up(module_path):
           if os.path.isdir(module_path):
@@ -172,8 +195,6 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
 
         #strings to insert into tests.py
         test_add_fields =""
-        
-
 
 
         for f in fields:
@@ -288,6 +309,7 @@ with open( "scaffold/module.yaml" , "r") as yaml_file:
                  generate_files(module_dir)
                  print('{} created successfully'.format(module_dir))
                  register_blueprints()
+                 add_tests()
              except:
                  clean_up(module_dir)
                  raise
