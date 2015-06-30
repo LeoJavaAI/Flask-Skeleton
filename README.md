@@ -2,9 +2,8 @@ Flask-Scaffold allows you to quickly prototype a CRUD application  in python 3.4
 
 Please ensure PostgreSQL is installed with the development libraries. Steps are available [here](http://techarena51.com/index.php/flask-sqlalchemy-postgresql-tutorial/)
 
-For Complete Documentation with screenshots and troubleshooting please see the [wiki](https://github.com/Leo-g/Flask-Skeleton/wiki)
 
-![](https://travis-ci.org/Leo-g/Flask-Skeleton.svg?branch=master)
+![](https://travis-ci.org/Leo-g/Flask-Scaffold.svg?branch=master)
 ###Installation Steps
 ####Step 1:Clone the project to your application folder.
 
