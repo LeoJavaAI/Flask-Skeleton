@@ -1,4 +1,4 @@
-Flask-Scaffold allows you to quickly prototype a CRUD application  in python 3.4 with Flask, FLask-SQLAlchemy, marshmallow and PostgreSQL.
+Flask-Scaffold allows you to quickly prototype a CRUD application in python 3.4 with Flask, FLask-SQLAlchemy,  and PostgreSQL.
 
 Please ensure PostgreSQL is installed with the development libraries. Steps are available [here](http://techarena51.com/index.php/flask-sqlalchemy-postgresql-tutorial/)
 
