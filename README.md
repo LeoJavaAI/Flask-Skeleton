@@ -1,4 +1,4 @@
-Flask-Skeleton allows you to quickly build a Skeleton CRUD application  in python 3.4 with Flask, FLask-SQLAlchemy, marshmallow and PostgreSQL.
+Flask-Scaffold allows you to quickly build a Skeleton CRUD application  in python 3.4 with Flask, FLask-SQLAlchemy, marshmallow and PostgreSQL.
 
 Please ensure PostgreSQL is installed with the development libraries. Steps are available [here](http://techarena51.com/index.php/flask-sqlalchemy-postgresql-tutorial/)
 
