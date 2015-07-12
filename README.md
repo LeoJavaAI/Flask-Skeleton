@@ -7,7 +7,7 @@ Please ensure PostgreSQL is installed with the development libraries. Steps are 
 ###Installation Steps
 ####Step 1:Clone the project to your application folder.
 
-    git clone git@github.com:Leo-g/Flask-Skeleton.git YourAppFolderName
+    git clone git@github.com:Leo-g/Flask-Scaffold.git YourAppFolderName
 
 ####Step 2: Activate the virtual environment and install the requirements.
  
@@ -15,12 +15,32 @@ Please ensure PostgreSQL is installed with the development libraries. Steps are 
     virtualenv -p /usr/bin/python3.4 venv-3.4
     source venv-3.4/bin/activate
     pip install -r requirements.txt 
+    
+    
+#### Step 3 : Create a Scaffold with the fields you require.
 
-#### Step 3 : Update the config file with your Database Username, Database Password, Database Name and Database Hostname
+For a list of supported fields please see the wiki
+
+    vim scaffold/module.yaml
+    customers:
+     - name:String
+     - address:Text
+     - is_active:Boolean
+     - mobile:Integer
+     - email:Email
+     - url:URL
+     - timestamp:DateTime
+     - date:Date
+     - pricing:Decimal
+    
+    python scaffold.py scaffold/module.yaml
+    
+
+#### Step 4 : Update the config file with your Database Username, Database Password, Database Name and Database Hostname
 
     vim config.py
 
-#### Step 4 : Run migrations 
+#### Step 5 : Run migrations 
    
     python db.py db init
     python db.py db migrate
@@ -29,20 +49,15 @@ Please ensure PostgreSQL is installed with the development libraries. Steps are 
 ####  Step 5 : Start the server.
     python run.py
 
-Crud operations are performed on a user resource.
 
-**You should be able to see the App at  http://localhost:5000/users**
+**You should be able to see the App at  http://localhost:5000/customers**
 
-###Create a Scaffold
-    python scaffold.py posts
-    python db.py db migrate
-    python db.py db upgrade
-    python run.py
 
-**You should be able to see the App at  http://localhost:5000/posts**
+####Tests
+To run tests for all modules
 
-The above command will create a posts module in the app directory along with relevant templates in the templates folder. For complete details on Scaffold see https://github.com/Leo-g/Flask-Skeleton/wiki/Scaffolding
+      bash tests.bash
+To run tests for a specific module
 
-To run tests
+     python app/customers/test.py
 
-      python tests.py
