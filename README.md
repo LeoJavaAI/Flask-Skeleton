@@ -52,6 +52,9 @@ For a list of supported fields please see the wiki
 
 **You should be able to see the App at  http://localhost:5000/customers**
 
+It should be similar to the following screenshot which was for a post module
+![](http://i.imgur.com/brGR8gB.png)
+
 
 ####Tests
 To run tests for all modules
