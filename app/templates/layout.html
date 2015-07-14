@@ -6,29 +6,24 @@
     <title>Flask Blog</title>
     <link rel="stylesheet" href="/static/css/foundation.css" />
     <script src="/static/js/vendor/modernizr.js"></script>
-  
   </head>
-  
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
-   <body>
-
-          {% block body %}{% endblock %}
-      
-
-<script src="/static/js/vendor/jquery.js"></script>
+  <body>
+    {% block messages %}
+        {% with messages = get_flashed_messages() %}
+	        {% if messages %}
+    	       <ul class=flashes>
+    	            {% for message in messages %}
+      		            <li>{{ message }}</li>
+    		        {% endfor %}
+    	        </ul>
+  	        {% endif %}
+        {% endwith %}
+    {% endblock %}
+    {% block body %}{% endblock %}
+    <script src="/static/js/vendor/jquery.js"></script>
     <script src="/static/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
-  
-     </body>
-	</html>
+  </body>
+</html>
