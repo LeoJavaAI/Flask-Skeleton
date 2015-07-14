@@ -1,7 +1,10 @@
-Flask-Scaffold allows you to quickly prototype a CRUD application in python 3.4 with Flask, FLask-SQLAlchemy,  and PostgreSQL.
+Flask-Scaffold allows you to quickly prototype a CRUD application in python 3.x with Flask, FLask-SQLAlchemy,  and PostgreSQL.
 
 Please ensure PostgreSQL is installed with the development libraries. Steps are available [here](http://techarena51.com/index.php/flask-sqlalchemy-postgresql-tutorial/)
 
+###Supported Databases
+- PostgreSQL
+- MYSQL
 
 ![](https://travis-ci.org/Leo-g/Flask-Scaffold.svg?branch=master)
 ###Installation Steps
@@ -36,7 +39,7 @@ For a list of supported fields please see the wiki
     python scaffold.py scaffold/module.yaml
     
 
-#### Step 4 : Update the config file with your Database Username, Database Password, Database Name and Database Hostname
+#### Step 4 : Update the config file with your Database Username, Database Password, Database Name and Database Hostname. Uncomment/Comment the SQLALCHEMY_DATABASE_URI for the database you need to use
 
     vim config.py
 
@@ -63,4 +66,42 @@ To run tests for all modules
 To run tests for a specific module
 
      python app/customers/test.py
+     
+####Directory Structure
+        Project-Folder   
+            |-- config.py
+            |--run.py
+            |--requirements.txt    
+            |__ /venv 
+            |-- db.py
+            |__ /scaffold
+            |-- scaffold.py
+            |-- tests.bash    #Tests for all modules   
+            |__ app/
+                |-- __init__.py
+                +-- static
+                +-- templates
+                +-- module-1
+                    |-- __init__.py
+                    |-- models.py           
+                    |-- test_module-1.py  #Tests for module 1
+                    |-- views.py
+                    +-- templates
+                         +-- module-1
+                               |-- _form.html
+                               |-- index.html
+                               |-- add.html
+                               |-- update.html        
+                +-- module-2
+                    |-- __init__.py
+                    |-- models.py           
+                    |-- test_module-2.py  #Tests for module 2
+                    |-- views.py
+                    +-- templates
+                         +-- module-2
+                               |-- _form.html
+                               |-- index.html
+                               |-- add.html
+                               |-- update.html
+              
 
