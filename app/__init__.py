@@ -1,7 +1,7 @@
 from flask import Flask
 
 
-# http://flask.pocoo.org/docs/0.10/patterns/appfactories/
+#http://flask.pocoo.org/docs/0.10/patterns/appfactories/
 def create_app(config_filename):
     app = Flask(__name__)
     app.config.from_object(config_filename)
@@ -14,3 +14,6 @@ def create_app(config_filename):
     app.register_blueprint(users, url_prefix='/users')
 
     return app
+
+
+
